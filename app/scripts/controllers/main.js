@@ -2,7 +2,17 @@
 
 var module = angular.module('controller', []);
 
+var TITLES = {
+    NEW_TREE: "New tree",
+    SAVE: "Save",
+    DOWNLOAD: "Click to download",
+    REMOVE_ALERT: "Do not remove root",
+    NEW_NAME: "Enter new name"
+};
+
 module.controller('MainCtrl', [ '$scope' , function ($scope) {
+
+    $scope.titles = TITLES;
 
 	$scope.root = null;		
 	$scope.fileName = "mindMap";
@@ -54,7 +64,7 @@ module.controller('MainCtrl', [ '$scope' , function ($scope) {
   	var a = document.createElement('a');
   	a.download = $scope.fileName + ".json";
   	a.href = window.URL.createObjectURL(bb);
-  	a.textContent = '點擊下載';  	
+  	a.textContent = TITLES.DOWNLOAD;
 
   	a.dataset.downloadurl = [MIME_TYPE, a.download, a.href].join(':');
   	document.querySelectorAll("#downloadLinkWrap")[0].innerHTML = "";
@@ -317,7 +327,7 @@ module.directive('mindMap', function () {
 	    	function removeNode (d){	    		
 	    		var thisId = d.id;
 	    		if(!d.parent){
-	    			alert("沒辦法刪除Root");
+                    alert(TITLES.REMOVE_ALERT);
 	    			return;
 	    		}
 	    		d.parent.children.forEach(function(c , index){	    			
@@ -331,7 +341,7 @@ module.directive('mindMap', function () {
 	    	}
 
 	    	function editNode (d){	    		
-	    		var name = prompt("輸入新的名稱", d.name);
+	    		var name = prompt(TITLES.NEW_NAME, d.name);
 					if (name != null){
 					  d.name = name;
 					}

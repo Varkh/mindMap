@@ -18,15 +18,15 @@
 
     <div ng-controller="MainCtrl" class="minMapWrap">
       <div class="menu">
-        <div class="btn btn-default" ng-click="new()">新畫布</div>
+        <div class="btn btn-default" ng-click="new()">{{titles.NEW_TREE}}</div>
         <div class="btn btn-default loadFile">
-          <span>讀檔</span>
+          <span>Load from file</span>
           <input id="uploadFile" name="uploadFile" type="file" change-file="load">
         </div>
 
         <div class="downloadWrap">
           <input class="fileName" type="text" ng-model="fileName">
-          <div class="btn btn-default" ng-click="save()">存檔</div>
+          <div class="btn btn-default" ng-click="save()">{{titles.SAVE}}</div>
           <div id="downloadLinkWrap"></div>
         </div>
         
@@ -37,7 +37,7 @@
     
 
   <!-- build:js scripts/modules.js -->  
-  <script src="bower_components/angular/angular.js"></script>
+  <script src="scripts/angular.min.js"></script>
   <script src="scripts/d3.v3.min.js"></script>
   <script src="scripts/d3.layout.js"></script>
   <!-- endbuild -->
