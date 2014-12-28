@@ -3,3 +3,4 @@ node_modules
 .tmp
 app/bower_components
 *.sublime-*
+*.idea

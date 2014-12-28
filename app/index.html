@@ -1,6 +1,7 @@
 <!doctype html>
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-  <head>
+<!--[if gt IE 8]><!-->
+<html class="no-js"> <!--<![endif]-->
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title></title>
@@ -8,44 +9,46 @@
     <meta name="viewport" content="width=device-width">
 
 
-    <!-- build:css({.tmp,app}) styles/main.css -->    
-    <link rel="stylesheet" href="styles/bootstrap.css">
+    <!-- build:css({.tmp,app}) styles/main.css -->
+    <link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
+
+    <!-- build:js scripts/modules.js -->
+    <script src="plugins/angular.min.js"></script>
+    <script src="plugins/d3.v3.min.js"></script>
+    <script src="plugins/d3.layout.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="data/titles.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="scripts/controllers/main.js"></script>
+    <!-- endbuild -->
 </head>
-  <body ng-app="mindMapApp">
-    
+<body ng-app="mindMapApp">
 
-    <div ng-controller="MainCtrl" class="minMapWrap">
-      <div class="menu">
-        <div class="btn btn-default" ng-click="new()">新畫布</div>
-        <div class="btn btn-default loadFile">
-          <span>讀檔</span>
-          <input id="uploadFile" name="uploadFile" type="file" change-file="load">
-        </div>
+<div ng-controller="MainCtrl" class="minMapWrap">
+    <div class="menu">
+        <div class="hidden-xs text-center absolute-buttons-holder">
+            <div class="buttons-holder bg-info">
 
-        <div class="downloadWrap">
-          <input class="fileName" type="text" ng-model="fileName">
-          <div class="btn btn-default" ng-click="save()">存檔</div>
-          <div id="downloadLinkWrap"></div>
+                <div class="btn btn-default" ng-click="new()">{{titles.NEW_TREE}}</div>
+                <div class="btn btn-default loadFile">
+                    <span>Load from file</span>
+                    <input id="uploadFile" name="uploadFile" type="file" change-file="load">
+                </div>
+
+                <div class="downloadWrap">
+                    <input class="fileName" type="text" ng-model="fileName">
+
+                    <div class="btn btn-default" ng-click="save()">{{titles.SAVE}}</div>
+                    <div id="downloadLinkWrap"></div>
+                </div>
+            </div>
         </div>
-        
-      </div>
-      <div class="mindMap" mind-map="root"></div>      
     </div>
-
-    
-
-  <!-- build:js scripts/modules.js -->  
-  <script src="bower_components/angular/angular.js"></script>
-  <script src="scripts/d3.v3.min.js"></script>
-  <script src="scripts/d3.layout.js"></script>
-  <!-- endbuild -->
-
-  <!-- build:js({.tmp,app}) scripts/scripts.js -->
-  <script src="scripts/app.js"></script>
-  <script src="scripts/controllers/main.js"></script>  
-  <!-- endbuild -->
-
+    <div class="mindMap" mind-map="root"></div>
+</div>
 </body>
 </html>
