@@ -1,40 +1,77 @@
 {
- "name": "flare",
- "children": [
-  {
-    "name": "analytics",
+    "name": "flare",
+    "desc": "some description",
+    "nodeId": 1,
     "children": [
-    {
-      "name": "cluster",
-      "children": [
         {
-          "name": "AgglomerativeCluster",
-          "children": [
-            {"name": "AgglomerativeCluster"},
-            {"name": "CommunityStructure"},
-            {"name": "HierarchicalCluster"},
-            {"name": "MergeEdge"}
-          ]
-        },
-        {
-          "name": "CommunityStructure",
-          "children": [
-            {
-              "name": "AgglomerativeCluster",
-              "children": [
-                {"name": "AgglomerativeCluster"},
-                {"name": "CommunityStructure"},
-                {"name": "HierarchicalCluster"},
-                {"name": "MergeEdge"}
-              ]
-            }
-          ]
-        },
-        {"name": "HierarchicalCluster"},
-        {"name": "MergeEdge"}
-      ]
-    }
+            "name": "analytics",
+            "nodeId": 2,
+            "children": [
+                {
+                    "name": "cluster",
+                    "nodeId": 3,
+                    "children": [
+                        {
+                            "name": "AgglomerativeCluster",
+                            "nodeId": 4,
+                            "children": [
+                                {
+                                    "name": "AgglomerativeCluster",
+                                    "nodeId":5
+                                },
+                                {
+                                    "name": "CommunityStructure",
+                                    "nodeId":6
+                                },
+                                {
+                                    "name": "HierarchicalCluster",
+                                    "nodeId":7
+                                },
+                                {
+                                    "name": "MergeEdge",
+                                    "nodeId":8
+                                }
+                            ]
+                        },
+                        {
+                            "name": "CommunityStructure",
+                            "nodeId": 9,
+                            "children": [
+                                {
+                                    "name": "AgglomerativeCluster",
+                                    "nodeId": 10,
+                                    "children": [
+                                        {
+                                            "name": "AgglomerativeCluster",
+                                            "nodeId":11
+                                        },
+                                        {
+                                            "name": "CommunityStructure",
+                                            "nodeId":12
+                                        },
+                                        {
+                                            "name": "HierarchicalCluster",
+                                            "nodeId":13
+                                        },
+                                        {
+                                            "name": "MergeEdge",
+                                            "nodeId":14
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "HierarchicalCluster",
+                            "nodeId":15
+                        },
+                        {
+                            "name": "MergeEdge",
+                            "nodeId":16
+                        }
+                    ]
+                }
+            ]
+        }
     ]
-  }
-  ]
 }

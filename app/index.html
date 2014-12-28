@@ -15,6 +15,7 @@
     <!-- endbuild -->
 
     <!-- build:js scripts/modules.js -->
+    <script src="plugins/jquery-1.11.1.js"></script>
     <script src="plugins/angular.min.js"></script>
     <script src="plugins/d3.v3.min.js"></script>
     <script src="plugins/d3.layout.js"></script>
@@ -31,24 +32,30 @@
 <div ng-controller="MainCtrl" class="minMapWrap">
     <div class="menu">
         <div class="hidden-xs text-center absolute-buttons-holder">
-            <div class="buttons-holder bg-info">
-
-                <div class="btn btn-default" ng-click="new()">{{titles.NEW_TREE}}</div>
-                <div class="btn btn-default loadFile">
-                    <span>Load from file</span>
-                    <input id="uploadFile" name="uploadFile" type="file" change-file="load">
+            <div class="buttons-holder bg-info row">
+                <div class="col-lg-4">
+                    <div class="btn btn-default" ng-click="new()">{{titles.NEW_TREE}}</div>
+                    <div class="btn btn-default loadFile">
+                        <span>Load from file</span>
+                        <input id="uploadFile" name="uploadFile" type="file" change-file="load">
+                    </div>
                 </div>
-
-                <div class="downloadWrap">
+                <div class="col-lg-4">
                     <input class="fileName" type="text" ng-model="fileName">
-
                     <div class="btn btn-default" ng-click="save()">{{titles.SAVE}}</div>
                     <div id="downloadLinkWrap"></div>
                 </div>
+                <div class="col-lg-4">
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-model="searchValue">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" ng-click="searchByName()">{{titles.SEARCH}}</button>
+                        </span>
+                    </div>
+                </div>
             </div>
         </div>
+        <div class="mindMap" mind-map="root"></div>
     </div>
-    <div class="mindMap" mind-map="root"></div>
-</div>
 </body>
 </html>

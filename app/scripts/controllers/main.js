@@ -1,6 +1,7 @@
 'use strict';
 
 var module = angular.module('controller', []);
+var nextId = 0;
 
 module.controller('MainCtrl', [ '$scope' , function ($scope) {
 
@@ -8,6 +9,7 @@ module.controller('MainCtrl', [ '$scope' , function ($scope) {
 
     $scope.root = null;
     $scope.fileName = "mindMap";
+    $scope.searchValue = "";
 
     d3.json("data/example.json", function (json) {
         $scope.json = json;
@@ -34,17 +36,18 @@ module.controller('MainCtrl', [ '$scope' , function ($scope) {
         {
             "name": "root"
         };
+        nextId = 0;
     }
 
     $scope.load = function (file) {
         var reader = new FileReader();
         reader.onload = function (event) {
             var contents = event.target.result;
-            //console.log(JSON.parse(contents));
             $scope.json = JSON.parse(contents);
             $scope.$apply();
         }
         reader.readAsText(file);
+        initNextId();
     }
 
     $scope.save = function () {
@@ -61,6 +64,39 @@ module.controller('MainCtrl', [ '$scope' , function ($scope) {
         a.dataset.downloadurl = [MIME_TYPE, a.download, a.href].join(':');
         document.querySelectorAll("#downloadLinkWrap")[0].innerHTML = "";
         document.querySelectorAll("#downloadLinkWrap")[0].appendChild(a);
+    }
+
+    $scope.searchByName = function() {
+        searchEngine($scope.root);
+
+    }
+
+    function searchEngine(node) {
+        if(node.name === $scope.searchValue) {
+            $("circle[data-nodeId="+node.nodeId+"]").css("fill","#DDBF1E")
+        }
+        if (node.children) {
+            node.children.forEach(function (node) {
+                searchEngine(node);
+            });
+        }
+    }
+
+    function initNextId() {
+        searchMaxId($scope.root);
+        nextId++;
+        alert(nextId);
+    }
+
+    function searchMaxId(node) {
+        if(node.name > nextId) {
+            nextId = node.name;
+        }
+        if (node.children) {
+            node.children.forEach(function (node) {
+                searchMaxId(node);
+            });
+        }
     }
 
 }]);
@@ -237,6 +273,9 @@ module.directive('mindMap', function () {
             function InjectNodeContent(nodeEnter) {
                 nodeEnter.append("svg:circle")
                     .attr("r", 1e-6)
+                    .attr("data-nodeId", function (d) {
+                        return d.nodeId;
+                    })
                     .style("fill", function (d) {
                         return d._children ? "lightsteelblue" : "#fff";
                     })
@@ -316,6 +355,25 @@ module.directive('mindMap', function () {
                     })
                     .on("click", editNode);
 
+                // Edit btn
+                nodeEnter.append("svg:path")
+                    .attr("d", "M20.307 1.998c-0.839-0.462-3.15-1.601-4.658-1.913-1.566-0.325-3.897 5.79-4.638 5.817-1.202 0.043-0.146-4.175 0.996-5.902-1.782 1.19-4.948 2.788-5.689 4.625-1.432 3.551 2.654 9.942 0.474 10.309-0.68 0.114-2.562-4.407-3.051-5.787-1.381 2.64-0.341 5.111 0.801 8.198v0.192c-0.044 0.167-0.082 0.327-0.121 0.489h0.121v4.48c0 0.825 0.668 1.493 1.493 1.493 0.825 0 1.493-0.668 1.493-1.493v-4.527c2.787-0.314 4.098 0.6 6.007-3.020-1.165 0.482-3.491-0.987-3.009-1.68 0.97-1.396 4.935 0.079 7.462-4.211-4 1.066-4.473-0.462-4.511-1.019-0.080-1.154 3.999-0.542 5.858-2.146 1.078-0.93 2.37-3.133 0.97-3.905z")
+                    .attr("transform", function (d) {
+                        var offset = (d.children || d._children) ? 20 : 90;
+                        return "translate(" + offset + "," + 10 + ")";
+                    })
+                    .classed("function-btn edit", true);
+
+                nodeEnter.append("svg:rect")
+                    .classed("function-bg edit", true)
+                    .attr("width", "24px")
+                    .attr("height", "24px")
+                    .attr("transform", function (d) {
+                        var offset = (d.children || d._children) ? 20 : 90;
+                        return "translate(" + offset + "," + 10 + ")";
+                    })
+                    .on("click", editNodeDesc);
+
 
                 function addNewNode(d) {
                     var childList;
@@ -359,6 +417,18 @@ module.directive('mindMap', function () {
                     var name = prompt(TITLES.NEW_NAME, d.name);
                     if (name != null) {
                         d.name = name;
+                    }
+                    if (!d.parent) {
+                        update(d);
+                    }
+                    update(d.parent);
+                    scope.root = root;
+                }
+
+                function editNodeDesc(d) {
+                    var desc = prompt(TITLES.DESC_NAME, d.desc);
+                    if (desc != null) {
+                        d.desc = desc;
                     }
                     if (!d.parent) {
                         update(d);
